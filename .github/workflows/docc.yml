@@ -20,3 +20,7 @@ jobs:
         env:
           LIBRARY_NAME: ${{ steps.get_package.outputs.name  }}
           REPO_NAME: ${{ github.event.repository.name }}
+      - name: Publish generated doc
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Updated source code documentation generated with Docc
