@@ -1,0 +1,47 @@
+name: DocC
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  build:
+    name: Build documentation for GitHub Pages
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: swift-actions/setup-swift@v1
+        with:
+          swift-version: 5.6
+
+      - name: Get package info ## This assumes 1 package in this library
+        id: get_package
+        run: |
+          LIBRARY_NAME=$(swift package describe | grep 'Name: ' | grep -v 'Tests' | awk '{print $2}' | head -n 1)
+          echo "::set-output name=LIBRARY_NAME::$(echo $LIBRARY_NAME)"
+          V_SPM=$(grep "^let libraryVersion" Package.swift | sed -E "s/let libraryVersion.*\"(.*)\"/\1/g")          
+          echo "::set-output name=LIBRARY_VERSION::$(echo $V_SPM)"
+
+      - name: Create source code documentation with DocC
+        run: |
+          export DOCC_JSON_PRETTYPRINT="YES"
+          swift package --allow-writing-to-directory .build/docc generate-documentation --target "$LIBRARY_NAME" --fallback-display-name "$LIBRARY_NAME" --fallback-bundle-identifier "$LIBRARY_NAME" --bundle-version "$LIBRARY_VERSION" --transform-for-static-hosting --enable-inherited-docs --hosting-base-path "$LIBRARY_NAME/docc" --output-path .build/docc
+        env:
+          LIBRARY_NAME: ${{ steps.get_package.outputs.LIBRARY_NAME  }}
+          LIBRARY_VERSION: ${{ steps.get_package.outputs.LIBRARY_VERSION  }}
+
+      - name: Deploy DocC to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        if: ${{ github.ref == 'refs/heads/main' }}
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .build/docc
+          allow_empty_commit: true
+          destination_dir: ./docs/docc

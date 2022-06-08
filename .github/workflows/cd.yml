@@ -1,0 +1,53 @@
+name: CD
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build DocC for GitHub Pages
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Get package name ## This assumes 1 package in this library
+        id: get_package
+        run: |
+          LIBRARY_NAME=$(swift package describe | grep 'Name: ' | grep -v 'Tests' | awk '{print $2}' | head -n 1)
+          echo "::set-output name=name::$(echo $LIBRARY_NAME)"
+          V_SPM=$(grep "^let libraryVersion" Package.swift | sed -E "s/let libraryVersion.*\"(.*)\"/\1/g")
+          V_POD=$(cat definitions.json | python3 -c "import json,sys;obj=json.load(sys.stdin);print(obj['version']);")
+          if ["$V_SPM" != "$V_POD"]; then
+            echo "Version declared in 'definitions.json' does not match version in 'Package.swift'"
+            exit 1
+          fi
+          echo "::set-output name=LIBRARY_VERSION::$(echo $V_SPM)"
+
+      - name: Create iOS XCFramework
+        run: |
+          ./scripts/create-ios-xcframework.sh
+
+      - name: Create a release/tag from this version
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.get_package.outputs.LIBRARY_VERSION }}
+          release_name: Version ${{ steps.get_package.outputs.LIBRARY_VERSION }}
+          body: "PRs in release: ${{ steps.build_changelog.outputs.pull_requests }}\n${{ steps.build_changelog.outputs.changelog }}"
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Asset
+        id: upload-release-framework
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+          asset_path: ./Build/xcframeworks/ios-library.xcframework.zip
+          asset_name: ios-library.xcframework.zip
+          asset_content_type: application/zip

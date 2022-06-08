@@ -1,0 +1,58 @@
+name: Jazzy
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  build:
+    name: Build documentation for GitHub Pages
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: swift-actions/setup-swift@v1
+        with:
+          swift-version: 5.6
+
+      - name: Get package info ## This assumes 1 package in this library
+        id: get_package
+        run: |
+          LIBRARY_NAME=$(swift package describe | grep 'Name: ' | grep -v 'Tests' | awk '{print $2}' | head -n 1)
+          echo "::set-output name=LIBRARY_NAME::$(echo $LIBRARY_NAME)"
+          V_SPM=$(grep "^let libraryVersion" Package.swift | sed -E "s/let libraryVersion.*\"(.*)\"/\1/g")          
+          echo "::set-output name=LIBRARY_VERSION::$(echo $V_SPM)"
+
+      - name: Clean documentation output
+        run: |
+          rm -rf .build/jazzy
+          mkdir -p .build/jazzy
+
+      - name: Generate documentation
+        uses: sersoft-gmbh/swifty-docs-action@v1
+        with:
+          source: ${{ github.workspace }}
+          output: .build/jazzy
+          module: ${{ steps.get_package.outputs.LIBRARY_NAME }}
+          module-version: ${{ steps.get_package.outputs.LIBRARY_VERSION }}
+          clean: true
+
+      - name: Publish changes in documentation
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Update documentation
+
+      - name: Deploy DocC to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        if: ${{ github.ref == 'refs/heads/main' }}
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .build/jazzy
+          allow_empty_commit: true
+          destination_dir: ./docs/jazzy
