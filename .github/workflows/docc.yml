@@ -3,6 +3,10 @@ name: Docc
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   build:
     name: Build Docc for GitHub Pages
@@ -12,17 +16,23 @@ jobs:
         with:
           swift-version: 5.6
       - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Get repository name
+        id: get_repository
+        run: echo ::set-env name=REPOSITORY_NAME::$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//")
       - name: Get package name ## This assumes 1 package in this library
         id: get_package
         run: |
           LIBRARY_NAME=$(swift package describe | grep 'Name: ' | grep -v 'Tests' | awk '{print $2}' | head -n 1)
-          echo "::set-output name=name::$(echo $LIBRARY_NAME)"
+          echo "::set-output name=LIBRARY_NAME::$(echo $LIBRARY_NAME)"
       - name: Create Docc
         run: |
-          swift package --allow-writing-to-directory ./docs/docc generate-documentation --target $LIBRARY_NAME --output-path ./docs/docc --transform-for-static-hosting --hosting-base-path "$REPO_NAME/docc"
+          swift package --allow-writing-to-directory ./docs/docc generate-documentation --target "$LIBRARY_NAME" --output-path ./docs/docc --transform-for-static-hosting --hosting-base-path "$REPO_NAME/docc"
         env:
-          LIBRARY_NAME: ${{ steps.get_package.outputs.name  }}
-          REPO_NAME: ${{ github.event.repository.name }}
+          REPO_NAME: ${{ steps.get_repository.outputs.REPOSITORY_NAME  }}
+          LIBRARY_NAME: ${{ steps.get_package.outputs.LIBRARY_NAME  }}
       - name: Publish generated doc
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
