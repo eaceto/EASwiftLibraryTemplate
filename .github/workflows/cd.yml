@@ -1,0 +1,31 @@
+name: CD
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build Docc for GitHub Pages
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Get package name ## This assumes 1 package in this library
+        id: get_package
+        run: |
+          LIBRARY_NAME=$(swift package describe | grep 'Name: ' | grep -v 'Tests' | awk '{print $2}' | head -n 1)
+          echo "::set-output name=name::$(echo $LIBRARY_NAME)"
+      - name: Check library version
+        id: version
+        run: |
+          V_SPM=$(grep "^let libraryVersion" Package.swift | sed -E "s/let libraryVersion.*\"(.*)\"/\1/g")
+          V_POD=$(grep "^libraryVersion" *.podspec | sed -E "s/libraryVersion.*\"(.*)\"/\1/g")
+          if ["$V_SPM" != "$V_POD"]; then
+            echo "Version declared in Podspec does not match version in Package.swift"
+            exit 1
+          fi
+          echo "::set-output name=versionName::$(echo $V_SPM)"
+      - name: Create Docc
+        run: |
+          swift package --allow-writing-to-directory ./docs/source generate-documentation --target $LIBRARY_NAME --output-path ./docs/source --transform-for-static-hosting --hosting-base-path EASwiftLibraryTemplate/source
+        env:
+          LIBRARY_NAME: ${{get_package.outputs.name}}
