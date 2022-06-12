@@ -1,5 +1,13 @@
 #! /bin/sh
 
+# Check correct run
+SWIFT_PACKAGE="Package.swift"
+if [ ! -f "$SWIFT_PACKAGE" ]; then
+    echo "Script should be run from the directory where $SWIFT_PACKAGE is present."
+    echo "./scripts/create-ios-xcframework.sh"
+    exit -1
+fi
+
 LIBRARY_NAME=$(swift package describe | grep 'Name: ' | grep -v 'Tests' | awk '{print $2}' | head -n 1)
 
 xcodebuild -workspace . -scheme "$LIBRARY_NAME" clean -destination generic/platform=iOS -destination 'generic/platform=iOS Simulator'
