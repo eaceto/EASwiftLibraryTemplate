@@ -29,7 +29,7 @@ jobs:
         run: |
           rm -rf .build
           swift package clean
-          swift test --enable-code-coverage --build-path $COVERAGE_BUILD_PATH
+          swift test --enable-code-coverage --build-path .build/coverage-build
 
       - name: Generate LCOV report
         run: |
