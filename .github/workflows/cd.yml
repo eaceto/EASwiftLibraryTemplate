@@ -3,11 +3,14 @@ name: CD
 on:
   pull_request:
     branches: [main]
+    paths:
+      - "definitions.json"
+      - "Package.*"
   workflow_dispatch:
 
 jobs:
   build:
-    name: Build DocC for GitHub Pages
+    name: Release a new version
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
