@@ -4,7 +4,7 @@
 import PackageDescription
 
 let libraryName = "EASwiftLibraryTemplate"
-let libraryVersion = "0.0.1"
+let libraryVersion = "0.0.2"
 
 let package = Package(
     name: libraryName,
