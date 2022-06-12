@@ -3,8 +3,18 @@ name: CI
 on:
   push:
     branches: [main]
+    paths:
+      - ".github/workflows/ci.yml"
+      - "Sources/**"
+      - "Tests/**"
+      - "Package.*"
   pull_request:
     branches: [main]
+    paths:
+      - ".github/workflows/ci.yml"
+      - "Sources/**"
+      - "Tests/**"
+      - "Package.*"
   workflow_dispatch:
 
 jobs:
@@ -19,8 +29,22 @@ jobs:
       - uses: swift-actions/setup-swift@v1
         with:
           swift-version: ${{ matrix.swift }}
+
       - uses: actions/checkout@v3
-      - name: Build
-        run: swift build --build-path .build
-      - name: Run tests
+
+      - name: Build and Run Test
         run: swift test --build-path .build
+
+  linter:
+    name: Run Linter
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: GitHub Action for SwiftLint
+        uses: norio-nomura/action-swiftlint@3.2.1
+        with:
+          args: --strict
