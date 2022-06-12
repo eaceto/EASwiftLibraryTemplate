@@ -23,7 +23,7 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          brew install lcov swiftlint
+          brew install lcov
 
       - name: Build and Run Test
         run: |
