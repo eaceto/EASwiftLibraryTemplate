@@ -56,4 +56,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: .build/swiftlint/
           allow_empty_commit: true
-          destination_dir: .docs/swiftlint/
+          destination_dir: docs/swiftlint/
