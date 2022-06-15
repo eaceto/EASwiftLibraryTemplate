@@ -14,6 +14,17 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: swift-actions/setup-swift@v1
+        with:
+          swift-version: 5.6
+
+      - name: Install Dependencies
+        run: |
+          brew install lcov swiftlint
 
       - name: Get package name ## This assumes 1 package in this library
         id: get_package
@@ -27,6 +38,47 @@ jobs:
             exit 1
           fi
           echo "::set-output name=LIBRARY_VERSION::$(echo $V_SPM)"
+          DOCS_GENERATOR=$(cat definitions.json | python3 -c "import json,sys;obj=json.load(sys.stdin);print(obj['docs_generator']);")
+
+      - name: Create source code documentation with DocC
+        if: ${{ DOCS_GENERATOR == "docc" }}
+        run: |
+          export DOCC_JSON_PRETTYPRINT="YES"
+          swift package --allow-writing-to-directory docs/docc generate-documentation --target "$LIBRARY_NAME" --fallback-display-name "$LIBRARY_NAME" --fallback-bundle-identifier "$LIBRARY_NAME" --bundle-version "$LIBRARY_VERSION" --transform-for-static-hosting --enable-inherited-docs --hosting-base-path "$LIBRARY_NAME/docc" --output-path docs/docc
+        env:
+          LIBRARY_NAME: ${{ steps.get_package.outputs.LIBRARY_NAME  }}
+          LIBRARY_VERSION: ${{ steps.get_package.outputs.LIBRARY_VERSION  }}
+          DOCS_GENERATOR: ${{ steps.get_package.outputs.DOCS_GENERATOR  }}
+
+      - name: Create source code documentation with Jazzy
+        if: ${{ DOCS_GENERATOR != "docc" }}
+        uses: sersoft-gmbh/swifty-docs-action@v1
+        with:
+          source: ${{ github.workspace }}
+          output: docs/jazzy
+          module: ${{ steps.get_package.outputs.LIBRARY_NAME }}
+          module-version: ${{ steps.get_package.outputs.LIBRARY_VERSION }}
+          clean: true
+        env:
+          DOCS_GENERATOR: ${{ steps.get_package.outputs.DOCS_GENERATOR  }}
+
+      - name: Publish source code documentation
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Updated source code docs
+
+      - name: Create quality reports
+        run: |
+          swift package clean
+          swift test --enable-code-coverage --build-path .build/coverage-build
+          ./scripts/gen-lcov-report.sh
+          mkdir -p docs/swiftlint
+          swiftlint lint --quiet --reporter html > docs/swiftlint/index.html
+
+      - name: Publish quality reports
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Updated coverage reports
 
       - name: Create iOS XCFramework
         run: |

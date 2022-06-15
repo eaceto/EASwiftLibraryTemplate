@@ -22,7 +22,7 @@ fi
 CONFIGURATION="debug"
 COVERAGE_BUILD_PATH=".build/coverage-build"
 COVERAGE_OUTPUT_PATH=".build/lcov/report"
-DOCS_OUTPUT_PATH=".build/lcov/docs"
+DOCS_OUTPUT_PATH="docs/lcov"
 LCOV_INFO_PATH="$COVERAGE_OUTPUT_PATH/lcov.info"
 
 # Assuming one package..
