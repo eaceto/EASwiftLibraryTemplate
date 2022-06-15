@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>StringMasker Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/StringMasker" class="dashAnchor"></a>
+    <a title="StringMasker Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">EASwiftLibraryTemplate 0.0.3 Docs</a> (100% documented)</p>
+        <div class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </div>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">EASwiftLibraryTemplate Reference</a>
+        <img id="carat" src="../img/carat.png" alt=""/>
+        StringMasker Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/StringMasker.html">StringMasker</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>StringMasker</h1>
+              <div class="declaration">
+                <div class="language">
+                  
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">StringMasker</span></code></pre>
+
+                </div>
+              </div>
+            <p>A class with a static function that masks strings</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:22EASwiftLibraryTemplate12StringMaskerC11defaultMaskSSvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/defaultMask" class="dashAnchor"></a>
+                    <a class="token" href="#/s:22EASwiftLibraryTemplate12StringMaskerC11defaultMaskSSvpZ">defaultMask</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The default character used to mask strings</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">defaultMask</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:22EASwiftLibraryTemplate12StringMaskerC4mask6string4withS2S_SStFZ"></a>
+                    <a name="//apple_ref/swift/Method/mask(string:with:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:22EASwiftLibraryTemplate12StringMaskerC4mask6string4withS2S_SStFZ">mask(string:<wbr>with:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Given a string it masks its content showing only the firsts and lasts characters</p>
+
+<p>## Example:</p>
+<pre class="highlight swift"><code> <span class="k">let</span> <span class="nv">string</span> <span class="o">=</span> <span class="s">"4003 1002 4002 2002"</span>
+ <span class="k">let</span> <span class="nv">result</span> <span class="o">=</span> <span class="kt">StringMasker</span><span class="o">.</span><span class="nf">mask</span><span class="p">(</span><span class="nv">string</span><span class="p">:</span> <span class="n">string</span><span class="p">,</span> <span class="nv">with</span><span class="p">:</span> <span class="s">"*"</span><span class="p">)</span>
+ <span class="c1">// result will be 14003***********20024</span>
+</code></pre>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">mask</span><span class="p">(</span><span class="nv">string</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">with</span> <span class="nv">mask</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="kt">StringMasker</span><span class="o">.</span><span class="n"><a href="../Classes/StringMasker.html#/s:22EASwiftLibraryTemplate12StringMaskerC11defaultMaskSSvpZ">defaultMask</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>string</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>a String to <strong>mask</strong></p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>mask</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>a String of, preferably, length 1 to mask characters in <strong>string</strong></p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>a masked String</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2022 <a class="link" href="https://github.com/eaceto/EASwiftLibraryTemplate" target="_blank" rel="external noopener">Ezequiel (Kimi) Aceto</a>. All rights reserved. (Last updated: 2022-06-15)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.2</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</html>
