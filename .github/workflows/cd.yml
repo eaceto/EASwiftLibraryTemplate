@@ -39,6 +39,7 @@ jobs:
           fi
           echo "::set-output name=LIBRARY_VERSION::$(echo $V_SPM)"
           DOCS_GENERATOR=$(cat definitions.json | python3 -c "import json,sys;obj=json.load(sys.stdin);print(obj['docs_generator']);")
+          echo "::set-output name=DOCS_GENERATOR::$(echo $DOCS_GENERATOR)"
 
       - name: Create source code documentation with DocC
         if: ${{ DOCS_GENERATOR == "docc" }}
