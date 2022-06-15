@@ -62,32 +62,82 @@
 
 <p>Getting started is as easy as <a href="https://github.com/eaceto/EASwiftLibraryTemplate/generate">creating a GitHub project</a> using this template, and including <strong>all branches</strong>.</p>
 
-<p>Two branches should be present on your recently created project: <strong>main</strong> and <strong>gh-pages</strong>.</p>
-
 <p><img src="/Template/docs/create-using-template.png" alt="Create your project using this template and including all branches" title="Create your project using this template and including all branches"></p>
 <h3 id='setup-your-github-page' class='heading'>Setup your GitHub Page</h3>
 
-<p>GitHub Page is used to render source code and other automatically generated documentation. In order to let the <strong>docs pipeline</strong> run correctly, your GitHub Page should point to branch <strong>gh-pages</strong> and the folder to <strong>/docs</strong>.</p>
+<p>GitHub Page is used to render source code and other automatically generated documentation. Automatically generated documentation includes:</p>
+
+<ul>
+<li>Source Code Documentation</li>
+<li>(Swift)Linter Report</li>
+<li>Code Coverage Report</li>
+</ul>
+
+<p>This docs are automatically generated when the <strong>CD</strong> workflow runs.</p>
+
+<p>Please, take into consideration that your GitHub Page should point to <strong>main</strong> branch and <strong>/docs</strong> folders.</p>
 
 <p><img src="/Template/docs/github-page-settings.png" alt="Setting GitHub Pages correctly" title="Setting GitHub Pages correctly"></p>
 <h2 id='run-em-one-time-em-setup-script' class='heading'>Run <em>one time</em> Setup Script</h2>
+
+<p>From your terminal run:</p>
+<pre class="highlight shell"><code>/bin/zsh -c <span class="s2">"</span><span class="k">$(</span>curl -fsSL https://gist.githubusercontent.com/eaceto/743a8bbdb0696be36c2c03142002626f/raw/setup.sh<span class="k">)</span><span class="s2">"</span>
+</code></pre>
+
+<p>The script will ask for:</p>
+
+<ul>
+<li>Library Name</li>
+<li>Initial library version</li>
+<li>Jazzy or DocC for documentation</li>
+</ul>
+
+<p>And then check if the information is ok.</p>
+<pre class="highlight shell"><code>Enter the Library name without spaces <span class="o">(</span>i.e.: MySuperProLibrary<span class="o">)</span>.
+This will also be the Target and Product name of the Swift library.
+
+MySuperLib
+
+Enter the initial version of your Library <span class="k">in </span>SemVer format <span class="o">(</span>x.y.z<span class="o">)</span>
+
+1.3.5
+
+Do you want to use <span class="s1">'docs'</span> instead of <span class="s1">'jazzy'</span> as docs generator <span class="o">(</span>BETA<span class="o">)</span> <span class="o">[</span>y/N]?
+
+<span class="o">======</span> Configuration to apply <span class="o">======</span>
+Please verify that the following information is correct
+
+Library name: <span class="s1">'MySuperLib'</span>
+Library initial version: <span class="s1">'1.3.5'</span>
+Library homepage url: <span class="s1">'https://github.com/eaceto/EASwiftLibraryTemplate'</span>
+Library repository url <span class="o">(</span>SSH<span class="o">)</span>: <span class="s1">'git@github.com:eaceto/EASwiftLibraryTemplate.git'</span>
+Library repository url <span class="o">(</span>HTTPS<span class="o">)</span>: <span class="s1">'https://github.com/eaceto/EASwiftLibraryTemplate.git'</span>
+Library GitHub Page: <span class="s1">'https://eaceto.github.io/EASwiftLibraryTemplate/'</span>
+
+Docs using: <span class="s1">'jazzy'</span>
+
+<span class="o">====================================</span>
+
+
+Is this information correct? <span class="o">[</span>y/N]
+</code></pre>
+
+<p>When you confirm that the information is correct, several steps will be taken in order to adapt the template to your project.</p>
+
+<p>Then, you can build and test the library, and if everything is okey commit. </p>
 <h2 id='documenting-source-code' class='heading'>Documenting Source Code</h2>
 
-<p>Documentation is automatically generated using <strong>Jazzy</strong> or <strong>DocC</strong>, and published to GitHub Page. </p>
+<p>Documentation is automatically generated using <strong>Jazzy</strong> or <strong>DocC</strong>, and published to GitHub Page. By default GitHub Page <strong>index.md</strong> refers to <strong>Jazzy</strong> documentation, but you can switch it to <strong>DocC</strong> easily. This change can be done in <strong>definitions.json</strong> file, where <strong>docs_generator</strong> accepts <strong>jazzy</strong> or <strong>docc</strong> as valid values.</p>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EASwiftLibraryTemplate"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.0.3"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"homepage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/eaceto/EASwiftLibraryTemplate"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"git"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/eaceto/EASwiftLibraryTemplate.git"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"docs_generator"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jazzy"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 
 <p>In order to know more about Jazzy refer to its <a href="https://github.com/realm/jazzy">GitHub Repository</a>, and if you would like to use DocC please take a look at the <a href="https://developer.apple.com/documentation/docc">project documentation</a>.</p>
-
-<p>Like Jazzy, DocC only exposes symbos with public scope. But, extensions that belongs to symbols outside the target, will not appear in DocC but yes on Jazzy. You choose.</p>
-<h3 id='example-doc-using-docc' class='heading'>Example doc using DocC</h3>
-
-<p>Below is the documentation of the method <strong>mask(string:with:)</strong> using DoC
-<img src="/Template/docs/docc-example.png" alt="DocC generated doc" title="DocC generated doc"></p>
-<h3 id='example-doc-using-jazzy' class='heading'>Example doc using Jazzy</h3>
-
-<p>Below is the documentation of the method <strong>mask(string:with:)</strong> using Jazzy
-<img src="/Template/docs/jazzy-example.png" alt="Jazzy generated doc" title="Jazzy generated doc"></p>
-
-<p>By default GitHub Page <strong>index.md</strong> refers to <strong>Jazzy</strong> documentation, but you can switch it to <strong>DocC</strong> easily.</p>
 <h2 id='pipeline' class='heading'>Pipeline</h2>
 
 <p>GitHub Actions are used in this template, not only for documentation but also for CI/CD tasks.</p>
