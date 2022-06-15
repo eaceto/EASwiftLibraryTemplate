@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>EASwiftLibraryTemplate  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+    <script src="js/lunr.min.js" defer></script>
+    <script src="js/typeahead.jquery.js" defer></script>
+    <script src="js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+    <a title="EASwiftLibraryTemplate  Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="index.html">EASwiftLibraryTemplate 0.0.4 Docs</a> (100% documented)</p>
+        <div class="header-right">
+          <form role="search" action="search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </div>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="index.html">EASwiftLibraryTemplate Reference</a>
+        <img id="carat" src="img/carat.png" alt=""/>
+        EASwiftLibraryTemplate  Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Classes/StringMasker.html">StringMasker</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            
+            <h1 id='swift-library-template' class='heading'>Swift Library Template</h1>
+
+<p>A template for creating libraries for iOS, macOS, watchOS, tvOS (and possibly Linux!) with Swift</p>
+
+<ol>
+<li><a href="#getting-started">Getting Started</a></li>
+<li><a href="#run-one-time-setup-script">Run (one time) Setup Script</a></li>
+<li><a href="#documenting-source-code">Documenting Source Code</a></li>
+<li><a href="#pipeline">Pipeline</a></li>
+</ol>
+<h2 id='getting-started' class='heading'>Getting Started</h2>
+
+<p>Getting started is as easy as <a href="https://github.com/eaceto/EASwiftLibraryTemplate/generate">creating a GitHub project</a> using this template, and including <strong>all branches</strong>.</p>
+
+<p><img src="/Template/docs/create-using-template.png" alt="Create your project using this template and including all branches" title="Create your project using this template and including all branches"></p>
+<h3 id='setup-your-github-page' class='heading'>Setup your GitHub Page</h3>
+
+<p>GitHub Page is used to render source code and other automatically generated documentation. Automatically generated documentation includes:</p>
+
+<ul>
+<li>Source Code Documentation</li>
+<li>(Swift)Linter Report</li>
+<li>Code Coverage Report</li>
+</ul>
+
+<p>This docs are automatically generated when the <strong>CD</strong> workflow runs.</p>
+
+<p>Please, take into consideration that your GitHub Page should point to <strong>main</strong> branch and <strong>/docs</strong> folders.</p>
+
+<p><img src="/Template/docs/github-page-settings.png" alt="Setting GitHub Pages correctly" title="Setting GitHub Pages correctly"></p>
+<h2 id='run-em-one-time-em-setup-script' class='heading'>Run <em>one time</em> Setup Script</h2>
+
+<p>From your terminal run:</p>
+<pre class="highlight shell"><code>/bin/zsh -c <span class="s2">"</span><span class="k">$(</span>curl -fsSL https://gist.githubusercontent.com/eaceto/743a8bbdb0696be36c2c03142002626f/raw/setup.sh<span class="k">)</span><span class="s2">"</span>
+</code></pre>
+
+<p>The script will ask for:</p>
+
+<ul>
+<li>Library Name</li>
+<li>Initial library version</li>
+<li>Jazzy or DocC for documentation</li>
+</ul>
+
+<p>And then check if the information is ok.</p>
+<pre class="highlight shell"><code>Enter the Library name without spaces <span class="o">(</span>i.e.: MySuperProLibrary<span class="o">)</span>.
+This will also be the Target and Product name of the Swift library.
+
+MySuperLib
+
+Enter the initial version of your Library <span class="k">in </span>SemVer format <span class="o">(</span>x.y.z<span class="o">)</span>
+
+1.3.5
+
+Do you want to use <span class="s1">'docs'</span> instead of <span class="s1">'jazzy'</span> as docs generator <span class="o">(</span>BETA<span class="o">)</span> <span class="o">[</span>y/N]?
+
+<span class="o">======</span> Configuration to apply <span class="o">======</span>
+Please verify that the following information is correct
+
+Library name: <span class="s1">'MySuperLib'</span>
+Library initial version: <span class="s1">'1.3.5'</span>
+Library homepage url: <span class="s1">'https://github.com/eaceto/EASwiftLibraryTemplate'</span>
+Library repository url <span class="o">(</span>SSH<span class="o">)</span>: <span class="s1">'git@github.com:eaceto/EASwiftLibraryTemplate.git'</span>
+Library repository url <span class="o">(</span>HTTPS<span class="o">)</span>: <span class="s1">'https://github.com/eaceto/EASwiftLibraryTemplate.git'</span>
+Library GitHub Page: <span class="s1">'https://eaceto.github.io/EASwiftLibraryTemplate/'</span>
+
+Docs using: <span class="s1">'jazzy'</span>
+
+<span class="o">====================================</span>
+
+
+Is this information correct? <span class="o">[</span>y/N]
+</code></pre>
+
+<p>When you confirm that the information is correct, several steps will be taken in order to adapt the template to your project.</p>
+
+<p>Then, you can build and test the library, and if everything is okey commit. </p>
+<h2 id='documenting-source-code' class='heading'>Documenting Source Code</h2>
+
+<p>Documentation is automatically generated using <strong>Jazzy</strong> or <strong>DocC</strong>, and published to GitHub Page. By default GitHub Page <strong>index.md</strong> refers to <strong>Jazzy</strong> documentation, but you can switch it to <strong>DocC</strong> easily. This change can be done in <strong>definitions.json</strong> file, where <strong>docs_generator</strong> accepts <strong>jazzy</strong> or <strong>docc</strong> as valid values.</p>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EASwiftLibraryTemplate"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.0.3"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"homepage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/eaceto/EASwiftLibraryTemplate"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"git"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/eaceto/EASwiftLibraryTemplate.git"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"docs_generator"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jazzy"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>In order to know more about Jazzy refer to its <a href="https://github.com/realm/jazzy">GitHub Repository</a>, and if you would like to use DocC please take a look at the <a href="https://developer.apple.com/documentation/docc">project documentation</a>.</p>
+<h2 id='pipeline' class='heading'>Pipeline</h2>
+
+<p>GitHub Actions are used in this template, not only for documentation but also for CI/CD tasks.</p>
+
+<p>The action defined in <strong>ci.yml</strong> will <strong>build</strong> and <strong>test</strong> the library using Swift v5.5 and v5.6.</p>
+
+<p>If you need to add/remove a version of Swift, or add <strong>ubuntu</strong> as a target platform, modify the Strategy declared in <strong>ci.yml</strong> </p>
+<pre class="highlight yaml"><code>    <span class="na">strategy</span><span class="pi">:</span>
+      <span class="na">matrix</span><span class="pi">:</span>
+        <span class="na">os</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">macos-latest</span><span class="pi">]</span> <span class="c1">## Add 'ubuntu-latest' if required</span>
+        <span class="na">swift</span><span class="pi">:</span> <span class="pi">[</span><span class="s2">"</span><span class="s">5.5"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">5.6"</span><span class="pi">]</span>
+</code></pre>
+
+<p>By default, all pipelines run on branch <strong>main</strong>. Modify the GitHub Actions in order to make it run on other branches. For example, CI can run on main and development branch by changing the following lines in .github/workflows/ci.yml:</p>
+
+<p>From this:</p>
+<pre class="highlight yaml"><code><span class="na">name</span><span class="pi">:</span> <span class="s">CI</span>
+
+<span class="na">on</span><span class="pi">:</span>
+  <span class="na">push</span><span class="pi">:</span>
+    <span class="na">branches</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">main</span><span class="pi">]</span>
+  <span class="na">pull_request</span><span class="pi">:</span>
+    <span class="na">branches</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">main</span><span class="pi">]</span>
+  <span class="na">workflow_dispatch</span><span class="pi">:</span>
+</code></pre>
+
+<p>To this:</p>
+<pre class="highlight yaml"><code><span class="na">name</span><span class="pi">:</span> <span class="s">CI</span>
+
+<span class="na">on</span><span class="pi">:</span>
+  <span class="na">push</span><span class="pi">:</span>
+    <span class="na">branches</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">main</span><span class="pi">,</span> <span class="nv">development</span><span class="pi">]</span>
+  <span class="na">pull_request</span><span class="pi">:</span>
+    <span class="na">branches</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">main</span><span class="pi">,</span> <span class="nv">development</span><span class="pi">]</span>
+  <span class="na">workflow_dispatch</span><span class="pi">:</span>
+</code></pre>
+
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2022 <a class="link" href="https://github.com/eaceto/EASwiftLibraryTemplate" target="_blank" rel="external noopener">Ezequiel (Kimi) Aceto</a>. All rights reserved. (Last updated: 2022-06-15)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.2</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</html>
