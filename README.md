@@ -11,37 +11,40 @@ A template for creating libraries for iOS, macOS, watchOS, tvOS (and possibly Li
 
 Getting started is as easy as [creating a GitHub project](https://github.com/eaceto/EASwiftLibraryTemplate/generate) using this template, and including **all branches**.
 
-Two branches should be present on your recently created project: **main** and **gh-pages**.
-
 ![Create your project using this template and including all branches](/Template/docs/create-using-template.png "Create your project using this template and including all branches")
 
 ### Setup your GitHub Page
 
-GitHub Page is used to render source code and other automatically generated documentation. In order to let the **docs pipeline** run correctly, your GitHub Page should point to branch **gh-pages** and the folder to **/docs**.
+GitHub Page is used to render source code and other automatically generated documentation. Automatically generated documentation includes:
+
+  * Source Code Documentation
+  * (Swift)Linter Report
+  * Code Coverage Report
+
+This docs are automatically generated when the **CD** workflow runs.
+
+Please, take into consideration that your GitHub Page should point to **main** branch and **/docs** folders.
 
 ![Setting GitHub Pages correctly](/Template/docs/github-page-settings.png "Setting GitHub Pages correctly")
 
 ## Run *one time* Setup Script
+*TBD*
 
 ## Documenting Source Code
 
-Documentation is automatically generated using **Jazzy** or **DocC**, and published to GitHub Page. 
+Documentation is automatically generated using **Jazzy** or **DocC**, and published to GitHub Page. By default GitHub Page **index.md** refers to **Jazzy** documentation, but you can switch it to **DocC** easily. This change can be done in **definitions.json** file, where **docs_generator** accepts **jazzy** or **docc** as valid values.
+
+```json
+{
+    "name": "EASwiftLibraryTemplate",
+    "version": "0.0.3",
+    "homepage": "https://github.com/eaceto/EASwiftLibraryTemplate",
+    "git": "https://github.com/eaceto/EASwiftLibraryTemplate.git",
+    "docs_generator": "jazzy"
+}
+```
 
 In order to know more about Jazzy refer to its [GitHub Repository](https://github.com/realm/jazzy), and if you would like to use DocC please take a look at the [project documentation](https://developer.apple.com/documentation/docc).
-
-Like Jazzy, DocC only exposes symbos with public scope. But, extensions that belongs to symbols outside the target, will not appear in DocC but yes on Jazzy. You choose.
-
-### Example doc using DocC
-
-Below is the documentation of the method **mask(string:with:)** using DoC
-![DocC generated doc](/Template/docs/docc-example.png "DocC generated doc")
-
-### Example doc using Jazzy
-
-Below is the documentation of the method **mask(string:with:)** using Jazzy
-![Jazzy generated doc](/Template/docs/jazzy-example.png "Jazzy generated doc")
-
-By default GitHub Page **index.md** refers to **Jazzy** documentation, but you can switch it to **DocC** easily.
 
 ## Pipeline
 
