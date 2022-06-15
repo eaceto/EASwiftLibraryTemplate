@@ -9,7 +9,7 @@ A template for creating libraries for iOS, macOS, watchOS, tvOS (and possibly Li
 
 ## Getting Started
 
-Getting started is as easy as [creating a GitHub project](https://github.com/new) using this template, and including **all branches**.
+Getting started is as easy as [creating a GitHub project](https://github.com/eaceto/EASwiftLibraryTemplate/generate) using this template, and including **all branches**.
 
 Two branches should be present on your recently created project: **main** and **gh-pages**.
 
