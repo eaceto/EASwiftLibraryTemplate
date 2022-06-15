@@ -33,8 +33,8 @@ public class StringMasker {
         
         let half = string.count / 2
         let even = half % 2 == 0
-        let rangeStart = string.index(string.startIndex, offsetBy: half/2)
-        let rangeEnd = string.index(string.endIndex, offsetBy: -(half/2))
+        let rangeStart = string.index(string.startIndex, offsetBy: half / 2)
+        let rangeEnd = string.index(string.endIndex, offsetBy: -(half / 2))
         let hideString = String(repeating: mask, count: half + (even ? 0 : 2))
         return string.replacingCharacters(in: rangeStart..<rangeEnd, with: hideString)
     }
