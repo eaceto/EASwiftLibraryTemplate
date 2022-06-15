@@ -28,7 +28,55 @@ Please, take into consideration that your GitHub Page should point to **main** b
 ![Setting GitHub Pages correctly](/Template/docs/github-page-settings.png "Setting GitHub Pages correctly")
 
 ## Run *one time* Setup Script
-*TBD*
+
+From your terminal run:
+
+```sh
+/bin/zsh -c "$(curl -fsSL https://gist.githubusercontent.com/eaceto/743a8bbdb0696be36c2c03142002626f/raw/setup.sh)"
+```
+
+The script will ask for:
+
+  * Library Name
+  * Initial library version
+  * Jazzy or DocC for documentation
+
+And then check if the information is ok.
+
+```sh
+Enter the Library name without spaces (i.e.: MySuperProLibrary).
+This will also be the Target and Product name of the Swift library.
+
+MySuperLib
+
+Enter the initial version of your Library in SemVer format (x.y.z)
+
+1.3.5
+
+Do you want to use 'docs' instead of 'jazzy' as docs generator (BETA) [y/N]?
+
+====== Configuration to apply ======
+Please verify that the following information is correct
+
+Library name: 'MySuperLib'
+Library initial version: '1.3.5'
+Library homepage url: 'https://github.com/eaceto/EASwiftLibraryTemplate'
+Library repository url (SSH): 'git@github.com:eaceto/EASwiftLibraryTemplate.git'
+Library repository url (HTTPS): 'https://github.com/eaceto/EASwiftLibraryTemplate.git'
+Library GitHub Page: 'https://eaceto.github.io/EASwiftLibraryTemplate/'
+
+Docs using: 'jazzy'
+
+====================================
+
+
+Is this information correct? [y/N]
+```
+
+When you confirm that the information is correct, several steps will be taken in order to adapt the template to your project.
+
+Then, you can build and test the library, and if everything is okey commit. 
+
 
 ## Documenting Source Code
 
