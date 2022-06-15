@@ -43,7 +43,7 @@ jobs:
           echo "::set-output name=DOCS_GENERATOR::$(echo $DOCS_GENERATOR)"
 
       - name: Create source code documentation with DocC
-        if: ${{ DOCS_GENERATOR == "docc" }}
+        if: ${{ $DOCS_GENERATOR == "docc" }}
         run: |
           export DOCC_JSON_PRETTYPRINT="YES"
           swift package --allow-writing-to-directory docs/docc generate-documentation --target "$LIBRARY_NAME" --fallback-display-name "$LIBRARY_NAME" --fallback-bundle-identifier "$LIBRARY_NAME" --bundle-version "$LIBRARY_VERSION" --transform-for-static-hosting --enable-inherited-docs --hosting-base-path "$LIBRARY_NAME/docc" --output-path docs/docc
@@ -53,7 +53,7 @@ jobs:
           DOCS_GENERATOR: ${{ steps.get_package.outputs.DOCS_GENERATOR  }}
 
       - name: Create source code documentation with Jazzy
-        if: ${{ DOCS_GENERATOR != "docc" }}
+        if: ${{ $DOCS_GENERATOR != "docc" }}
         uses: sersoft-gmbh/swifty-docs-action@v1
         with:
           source: ${{ github.workspace }}
