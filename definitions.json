@@ -2,5 +2,6 @@
     "name": "EASwiftLibraryTemplate",
     "version": "0.0.2",
     "homepage": "https://github.com/eaceto/EASwiftLibraryTemplate",
-    "git": "https://github.com/eaceto/EASwiftLibraryTemplate.git"
+    "git": "https://github.com/eaceto/EASwiftLibraryTemplate.git",
+    "docs_generator": "jazzy"
 }
